@@ -1,0 +1,6 @@
+---
+# tasks file for object
+
+- name: change chrony configuration file
+  copy: src=chrony.conf dest=/etc/chrony/chrony.conf owner=root group=root mode=0644
+  notify: restart chrony

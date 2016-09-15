@@ -1,0 +1,37 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: apply common configuration to all nodes
+  hosts: all
+  become: True
+
+  roles:
+  - common
+
+- name: apply configuration to controller node
+  hosts: controller
+  become: true
+
+  roles:
+  - controller
+
+- name: apply configuration to compute nodes
+  hosts: compute
+  become: true
+
+  roles:
+  - compute
+
+- name: apply configuration to block nodes
+  hosts: block
+  become: true
+
+  roles:
+  - block
+
+- name: apply configuration to object nodes
+  hosts: object
+  become: true
+
+  roles:
+  - object

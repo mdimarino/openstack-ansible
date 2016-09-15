@@ -1,0 +1,18 @@
+controller ansible_ssh_user=openstack ansible_ssh_host=10.0.0.11 ansible_ssh_private_key_file='./id_rsa'
+compute1   ansible_ssh_user=openstack ansible_ssh_host=10.0.0.31 ansible_ssh_private_key_file='./id_rsa'
+block1     ansible_ssh_user=openstack ansible_ssh_host=10.0.0.41 ansible_ssh_private_key_file='./id_rsa'
+object1    ansible_ssh_user=openstack ansible_ssh_host=10.0.0.51 ansible_ssh_private_key_file='./id_rsa'
+object2    ansible_ssh_user=openstack ansible_ssh_host=10.0.0.52 ansible_ssh_private_key_file='./id_rsa'
+
+[controller]
+controller
+
+[compute]
+compute1
+
+[block]
+block1
+
+[object]
+object1
+object2
