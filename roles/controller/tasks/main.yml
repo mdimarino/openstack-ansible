@@ -1,9 +1,8 @@
 ---
 # tasks file for controller
 
-- name: change chrony configuration file
-  copy: src=chrony.conf dest=/etc/chrony/chrony.conf owner=root group=root mode=0644
-  notify: restart chrony
+- name: disable keystone service from starting automatically after package installation
+  copy: src=keystone.override dest=/etc/init/keystone.override owner=root group=root mode=0644
 
 - name: install packages
   apt: name={{ item }} state=present
@@ -14,34 +13,40 @@
     - mongodb-server
     - mongodb-clients
     - python-pymongo
+    - rabbitmq-server
+    - memcached
+    - python-memcache
+    - keystone
+    - apache2
+    - libapache2-mod-wsgi
 
-- name: set 'root'@'localhost' password
-  mysql_user: name=root host=localhost password={{ mariadb_root_password }} state=present
+- include: chrony_basic_conf.yml
 
-- name: create /root/.my.cnf file
-  template: src=.my.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+- include: mariadb_basic_conf.yml
 
-- name: set 'root'@'127.0.0.1' password
-  mysql_user: name=root host=127.0.0.1 password={{ mariadb_root_password }} state=present
+- include: mongodb_basic_conf.yml
 
-- name: set 'root'@'::1' password
-  mysql_user: name=root host=::1 password={{ mariadb_root_password }} state=present
+- include: rabbitmq_keystone_conf.yml
 
-- name: set 'root'@'{{ ansible_hostname }}' password
-  mysql_user: name=root host={{ ansible_hostname }} password={{ mariadb_root_password }} state=present
+- include: memcached_basic_conf.yml
 
-- name: set mariadb configuration for openstack
-  copy: src=openstack.cnf dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
-  notify: restart mariadb
+- include: mariadb_keystone_conf.yml
 
-- name: set mongodb configuration for openstack
-  copy: src=mongodb.conf dest=/etc/mongodb.conf owner=root group=root mode=0644
+- include: apache2_keystone_conf.yml
 
-- name: stop mongodb
-  service: name=mongodb state=stopped
+- meta: flush_handlers
 
-- name: remove files /var/lib/mongodb/journal/prealloc.*
-  file: src=/var/lib/mongodb/journal/prealloc.* state=absent 
+- include: keystone_conf.yml
 
-- name: start mongodb
-  service: name=mongodb state=started
+- include: keystone_elements.yml
+
+- name: create /etc/keystone/keystone-paste.ini file to disable the temporary authentication token mechanism
+  copy: src=keystone-paste.ini dest=/etc/keystone/keystone-paste.ini owner=root group=root mode=0644
+
+- name: create ~openstack/admin-openrc file
+  template: src=admin-openrc.j2 dest=~openstack/admin-openrc owner=openstack group=openstack mode=0644
+
+- name: create ~openstack/demo-openrc file
+  template: src=demo-openrc.j2 dest=~openstack/demo-openrc owner=openstack group=openstack mode=0644
+
+- include: mariadb_glance_conf.yml

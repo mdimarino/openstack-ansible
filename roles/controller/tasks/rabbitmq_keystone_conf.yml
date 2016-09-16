@@ -1,0 +1,7 @@
+---
+
+- name: start rabbitmq-server
+  service: name=rabbitmq-server state=started enabled=yes
+
+- name: add user and set permissions for user openstack under rabbitmq-server
+  rabbitmq_user: user=openstack password={{ RABBIT_PASS }} configure_priv=.* read_priv=.* write_priv=.* state=present

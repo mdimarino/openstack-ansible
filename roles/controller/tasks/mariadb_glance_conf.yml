@@ -1,0 +1,10 @@
+---
+
+- name: create database glance under mariadb
+  mysql_db: name=glance state=present
+
+- name: create 'glance'@'localhost' under mariadb
+  mysql_user: name=glance host=localhost priv=glance.*:ALL password={{ GLANCE_DBPASS }} state=present
+
+- name: create 'glance'@'%' under mariadb
+  mysql_user: name=glance host=% priv=glance.*:ALL password={{ GLANCE_DBPASS }} state=present

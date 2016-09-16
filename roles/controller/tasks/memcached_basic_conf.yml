@@ -1,0 +1,5 @@
+---
+
+- name: set memcached configuration for openstack
+  copy: src=memcached.conf dest=/etc/memcached.conf owner=root group=root mode=0644
+  notify: restart memcached

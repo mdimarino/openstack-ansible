@@ -1,0 +1,10 @@
+---
+
+- name: create database keystone under mariadb
+  mysql_db: name=keystone state=present
+
+- name: create 'keystone'@'localhost' under mariadb
+  mysql_user: name=keystone host=localhost priv=keystone.*:ALL password={{ KEYSTONE_DBPASS }} state=present
+
+- name: create 'keystone'@'%' under mariadb
+  mysql_user: name=keystone host=% priv=keystone.*:ALL password={{ KEYSTONE_DBPASS }} state=present

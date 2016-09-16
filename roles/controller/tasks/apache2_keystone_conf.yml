@@ -1,0 +1,11 @@
+---
+
+- name: create /etc/apache2/apache2.conf file
+  copy: src=apache2.conf dest=/etc/apache2/apache2.conf owner=root group=root mode=0644
+
+- name: create /etc/apache2/sites-available/wsgi-keystone.conf file
+  copy: src=wsgi-keystone.conf dest=/etc/apache2/sites-available/wsgi-keystone.conf owner=root group=root mode=0644
+
+- name: enable wsgi-keystone site configuration under apache2
+  command: a2ensite wsgi-keystone
+  notify: restart apache2

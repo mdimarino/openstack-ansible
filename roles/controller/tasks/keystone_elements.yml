@@ -1,0 +1,71 @@
+---
+
+- name: create service entity for identity service
+  command: openstack service create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --name keystone --description "OpenStack Identity" identity
+  become: true
+  become_user: openstack
+
+- name: create identity service API endpoint
+  command: openstack endpoint create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --region RegionOne identity public http://controller:5000/v3
+  become: true
+  become_user: openstack
+
+- name: create identity service API endpoint
+  command: openstack endpoint create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --region RegionOne identity internal http://controller:5000/v3
+  become: true
+  become_user: openstack
+
+- name: create identity service API endpoint
+  command: openstack endpoint create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --region RegionOne identity admin http://controller:35357/v3
+  become: true
+  become_user: openstack
+
+- name: create default domain
+  command: openstack domain create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --description "Default Domain" default
+  become: true
+  become_user: openstack
+
+- name: create admin project
+  command: openstack project create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --domain default --description "Admin Project" admin
+  become: true
+  become_user: openstack
+
+- name: create admin user
+  command: openstack user create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --domain default --password {{ ADMIN_PASS }} admin
+  become: true
+  become_user: openstack
+
+- name: create admin role
+  command: openstack role create admin --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }}
+  become: true
+  become_user: openstack
+
+- name: add admin role to admin project and user
+  command: openstack role add --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --project admin --user admin admin
+  become: true
+  become_user: openstack
+
+- name: create service project
+  command: openstack project create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --domain default --description "Service Project" service
+  become: true
+  become_user: openstack
+
+- name: create demo project
+  command: openstack project create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --domain default --description "Demo Project" demo
+  become: true
+  become_user: openstack
+
+- name: create demo user
+  command: openstack user create --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --domain default --password demo demo
+  become: true
+  become_user: openstack
+
+- name: create user role
+  command: openstack role create user --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }}
+  become: true
+  become_user: openstack
+
+- name: add user role to demo project and user
+  command: openstack role add --os-token {{ ADMIN_TOKEN }} --os-url {{ OS_URL }} --os-identity-api-version {{ OS_IDENTITY_API_VERSION }} --project demo --user demo user
+  become: true
+  become_user: openstack

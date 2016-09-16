@@ -1,0 +1,18 @@
+---
+
+- name: set mongodb configuration for openstack
+  copy: src=mongodb.conf dest=/etc/mongodb.conf owner=root group=root mode=0644
+
+- name: stop mongodb
+  service: name=mongodb state=stopped
+
+- name: find files under /var/lib/mongodb/journal/prealloc.*
+  find: paths="/var/lib/mongodb/journal" patterns="prealloc.*"
+  register: result
+
+- name: remove /var/lib/mongodb/journal/prealloc.* files
+  file: path='{{ item.path }}' state=absent
+  with_items: '{{ result.files }}'
+
+- name: start mongodb
+  service: name=mongodb state=started
