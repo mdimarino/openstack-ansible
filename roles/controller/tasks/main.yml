@@ -4,3 +4,29 @@
 - name: change chrony configuration file
   copy: src=chrony.conf dest=/etc/chrony/chrony.conf owner=root group=root mode=0644
   notify: restart chrony
+
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - mariadb-server
+    - python-pymysql
+    - python-mysqldb
+
+- name: set 'root'@'localhost' password
+  mysql_user: name=root host=localhost password={{ mariadb_root_password }} state=present
+
+- name: create /root/.my.cnf file
+  template: src=.my.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+
+- name: set 'root'@'127.0.0.1' password
+  mysql_user: name=root host=127.0.0.1 password={{ mariadb_root_password }} state=present
+
+- name: set 'root'@'::1' password
+  mysql_user: name=root host=::1 password={{ mariadb_root_password }} state=present
+
+- name: set 'root'@'{{ ansible_hostname }}' password
+  mysql_user: name=root host={{ ansible_hostname }} password={{ mariadb_root_password }} state=present
+
+- name: set mariadb configuration for openstack
+  copy: src=openstack.cnf dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
+  notify: restart mariadb

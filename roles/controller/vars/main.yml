@@ -1,2 +1,4 @@
 ---
 # vars file for controller
+
+mariadb_root_password: openstack
