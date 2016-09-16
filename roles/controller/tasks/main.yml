@@ -11,6 +11,9 @@
     - mariadb-server
     - python-pymysql
     - python-mysqldb
+    - mongodb-server
+    - mongodb-clients
+    - python-pymongo
 
 - name: set 'root'@'localhost' password
   mysql_user: name=root host=localhost password={{ mariadb_root_password }} state=present
@@ -30,3 +33,15 @@
 - name: set mariadb configuration for openstack
   copy: src=openstack.cnf dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
   notify: restart mariadb
+
+- name: set mongodb configuration for openstack
+  copy: src=mongodb.conf dest=/etc/mongodb.conf owner=root group=root mode=0644
+
+- name: stop mongodb
+  service: name=mongodb state=stopped
+
+- name: remove files /var/lib/mongodb/journal/prealloc.*
+  file: src=/var/lib/mongodb/journal/prealloc.* state=absent 
+
+- name: start mongodb
+  service: name=mongodb state=started
