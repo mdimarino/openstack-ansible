@@ -19,6 +19,7 @@
     - keystone
     - apache2
     - libapache2-mod-wsgi
+    - glance
 
 - include: chrony_basic_conf.yml
 
@@ -50,3 +51,5 @@
   template: src=demo-openrc.j2 dest=~openstack/demo-openrc owner=openstack group=openstack mode=0644
 
 - include: mariadb_glance_conf.yml
+
+- include: glance_conf.yml

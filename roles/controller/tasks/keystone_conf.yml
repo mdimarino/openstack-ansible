@@ -3,7 +3,7 @@
 - name: create /etc/keystone/keystone.conf file
   template: src=keystone.conf.j2 dest=/etc/keystone/keystone.conf owner=root group=root mode=0644
 
-- name: populate the identity service database
+- name: populate identity service database
   command: su -s /bin/sh -c "keystone-manage db_sync" keystone
 
 - name: initialize fernet keys
