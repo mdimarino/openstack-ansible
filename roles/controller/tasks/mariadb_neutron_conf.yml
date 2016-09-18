@@ -1,0 +1,10 @@
+---
+
+- name: create database neutron under mariadb
+  mysql_db: name=neutron state=present
+
+- name: create 'neutron'@'localhost' under mariadb database
+  mysql_user: name=neutron host=localhost priv=neutron.*:ALL password={{ NEUTRON_DBPASS }} state=present
+
+- name: create 'neutron'@'%' under mariadb database
+  mysql_user: name=neutron host=% priv=neutron.*:ALL password={{ NEUTRON_DBPASS }} state=present

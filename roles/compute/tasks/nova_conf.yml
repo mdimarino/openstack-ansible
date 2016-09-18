@@ -1,0 +1,7 @@
+---
+
+- name: create /etc/nova/nova.conf file
+  template: src=nova.conf.j2 dest=/etc/nova/nova.conf owner=nova group=nova mode=0640
+
+- name: restart nova-compute
+  service: name=nova-compute state=restarted

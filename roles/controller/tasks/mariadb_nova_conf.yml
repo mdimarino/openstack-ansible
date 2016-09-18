@@ -1,0 +1,13 @@
+---
+
+- name: create database nova under mariadb
+  mysql_db: name=nova state=present
+
+- name: create database nova_api under mariadb
+  mysql_db: name=nova_api state=present
+
+- name: create 'nova'@'localhost' under mariadb database
+  mysql_user: name=nova host=localhost priv=nova.*:ALL/nova_api.*:ALL password={{ NOVA_DBPASS }} state=present
+
+- name: create 'nova'@'%' under mariadb database
+  mysql_user: name=nova host=% priv=nova.*:ALL/nova_api.*:ALL password={{ NOVA_DBPASS }} state=present

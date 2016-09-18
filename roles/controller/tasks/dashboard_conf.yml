@@ -1,0 +1,7 @@
+---
+
+- name: create /etc/openstack-dashboard/local_settings.py file
+  template: src=local_settings.py.j2 dest=/etc/openstack-dashboard/local_settings.py owner=root group=root mode=0644
+
+- name: restart apache2
+  service: name=apache2 state=restarted

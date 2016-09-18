@@ -8,4 +8,6 @@
 
 - name: enable wsgi-keystone site configuration under apache2
   command: a2ensite wsgi-keystone
-  notify: restart apache2
+
+- name: restart apache2
+  service: name=apache2 state=restarted

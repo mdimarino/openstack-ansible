@@ -1,6 +1,14 @@
 ---
 # tasks file for compute
 
-- name: change chrony configuration file
-  copy: src=chrony.conf dest=/etc/chrony/chrony.conf owner=root group=root mode=0644
-  notify: restart chrony
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - nova-compute
+    - neutron-linuxbridge-agent
+
+- include: chrony_basic_conf.yml
+
+- include: nova_conf.yml
+
+- include: neutron_conf.yml

@@ -1,5 +1,2 @@
 ---
 # handlers file for compute
-
-- name: restart chrony
-  service: name=chrony state=restarted

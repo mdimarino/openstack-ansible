@@ -17,4 +17,6 @@
 
 - name: set mariadb configuration for openstack
   copy: src=openstack.cnf dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
-  notify: restart mariadb
+
+- name: restart mariadb
+  service: name=mysql state=restarted

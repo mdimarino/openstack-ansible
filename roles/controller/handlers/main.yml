@@ -1,14 +1,2 @@
 ---
 # handlers file for controller
-
-- name: restart chrony
-  service: name=chrony state=restarted
-
-- name: restart mariadb
-  service: name=mysql state=restarted
-
-- name: restart memcached
-  service: name=memcached state=restarted
-
-- name: restart apache2
-  service: name=apache2 state=restarted

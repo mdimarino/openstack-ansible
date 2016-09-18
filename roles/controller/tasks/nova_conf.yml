@@ -1,0 +1,109 @@
+---
+
+- name: create nova user
+  command: openstack user create --domain default --password {{ NOVA_PASS }} nova
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: add admin role to nova user
+  command: openstack role add --project service --user nova admin
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: create nova service entity
+  command: openstack service create --name nova --description "OpenStack Compute" compute
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: create compute service API endpoints
+  command: openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1/%\(tenant_id\)s
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: create compute service API endpoints
+  command: openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1/%\(tenant_id\)s
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: create compute service API endpoints
+  command: openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1/%\(tenant_id\)s
+  become: true
+  become_user: openstack
+  environment:
+    OS_PROJECT_DOMAIN_NAME: "{{ OS_PROJECT_DOMAIN_NAME }}"
+    OS_USER_DOMAIN_NAME: "{{ OS_USER_DOMAIN_NAME }}"
+    OS_PROJECT_NAME: "{{ OS_PROJECT_NAME }}"
+    OS_USERNAME: "{{ OS_USERNAME }}"
+    OS_PASSWORD: "{{ OS_PASSWORD }}"
+    OS_AUTH_URL: "{{ OS_AUTH_URL }}"
+    OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
+    OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
+
+- name: create /etc/nova/nova.conf file
+  template: src=nova.conf.j2 dest=/etc/nova/nova.conf owner=nova group=nova mode=0640
+
+- name: populate compute databases
+  command: su -s /bin/sh -c "nova-manage api_db sync" nova
+
+- name: populate compute databases
+  command: su -s /bin/sh -c "nova-manage db sync" nova
+
+- name: restart nova-api
+  service: name=nova-api state=restarted
+
+- name: restart nova-consoleauth
+  service: name=nova-consoleauth state=restarted
+
+- name: restart nova-scheduler
+  service: name=nova-scheduler state=restarted
+
+- name: restart nova-conductor
+  service: name=nova-conductor state=restarted
+
+- name: restart nova-novncproxy
+  service: name=nova-novncproxy state=restarted
