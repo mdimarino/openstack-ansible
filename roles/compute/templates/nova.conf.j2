@@ -12,7 +12,7 @@ api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 rpc_backend=rabbit
 auth_strategy=keystone
-my_ip={{ COMPUTE1_MANAGEMENT_INTERFACE_IP_ADDRESS }}
+my_ip={{ ansible_eth0.ipv4.address }}
 use_neutron=True
 firewall_driver=nova.virt.firewall.NoopFirewallDriver
 

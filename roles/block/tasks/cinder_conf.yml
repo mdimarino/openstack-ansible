@@ -1,0 +1,10 @@
+---
+
+- name: create /etc/cinder/cinder.conf file
+  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644
+
+- name: restart tgt
+  service: name=tgt state=restarted
+
+- name: restart cinder-volume
+  service: name=cinder-volume state=restarted

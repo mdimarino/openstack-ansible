@@ -1,6 +1,9 @@
 ---
 # tasks file for compute
 
+- name: replace filter under /etc/lvm/lvm.conf
+  lineinfile: dest=/etc/lvm/lvm.conf regexp='filter = \[ \"a\/\.\*\/\" \]' line='    filter = [ "a/sda/", "r/.*/"]'
+
 - name: install packages
   apt: name={{ item }} state=present
   with_items:

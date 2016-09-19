@@ -1,6 +1,17 @@
 ---
 # tasks file for block
 
-- name: change chrony configuration file
-  copy: src=chrony.conf dest=/etc/chrony/chrony.conf owner=root group=root mode=0644
-  notify: restart chrony
+- name: create logical volume group cinder-volumes under /dev/sdb
+  lvg: vg=cinder-volumes pvs=/dev/sdb
+
+- name: replace filter under /etc/lvm/lvm.conf
+  lineinfile: dest=/etc/lvm/lvm.conf regexp='filter = \[ \"a\/\.\*\/\" \]' line='    filter = [ "a/sda/", "a/sdb/", "r/.*/"]'
+
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - cinder-volume
+
+- include: chrony_basic_conf.yml
+
+- include: cinder_conf.yml

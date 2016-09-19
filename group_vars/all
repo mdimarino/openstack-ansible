@@ -11,6 +11,10 @@ NOVA_PASS: openstack
 NEUTRON_DBPASS: openstack
 NEUTRON_PASS: openstack
 METADATA_SECRET: 0wW9oaVl5hkrS2r
+CINDER_DBPASS: openstack
+CINDER_PASS: openstack
+MANILA_DBPASS: openstack
+MANILA_PASS: openstack
 
 OS_PROJECT_DOMAIN_NAME: default
 OS_USER_DOMAIN_NAME: default

@@ -32,6 +32,11 @@
     - neutron-dhcp-agent
     - neutron-metadata-agent
     - openstack-dashboard
+    - cinder-api
+    - cinder-scheduler
+    - manila-api
+    - manila-scheduler
+    - python-manilaclient
 
 - include: chrony_basic_conf.yml
 
@@ -73,3 +78,11 @@
 - include: neutron_conf.yml
 
 - include: dashboard_conf.yml
+
+- include: mariadb_cinder_conf.yml
+
+- include: cinder_conf.yml
+
+- include: mariadb_manila_conf.yml
+
+- include: manila_conf.yml

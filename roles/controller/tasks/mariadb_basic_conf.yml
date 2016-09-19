@@ -16,7 +16,7 @@
   mysql_user: name=root host={{ ansible_hostname }} password={{ mariadb_root_password }} state=present
 
 - name: set mariadb configuration for openstack
-  copy: src=openstack.cnf dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
+  template: src=openstack.cnf.j2 dest=/etc/mysql/conf.d/openstack.cnf owner=root group=root mode=0644
 
 - name: restart mariadb
   service: name=mysql state=restarted

@@ -5,6 +5,7 @@
   hosts:
     - controller
     - compute1
+    - block1
   become: true
 
   roles:
@@ -24,13 +25,13 @@
   roles:
   - compute
 
-#- name: apply configuration to block nodes
-#  hosts: block
-#  become: true
-#
-#  roles:
-#  - block
-#
+- name: apply configuration to block nodes
+  hosts: block1
+  become: true
+
+  roles:
+  - block
+
 #- name: apply configuration to object nodes
 #  hosts: object
 #  become: true

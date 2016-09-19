@@ -1,0 +1,10 @@
+---
+
+- name: create database cinder under mariadb
+  mysql_db: name=cinder state=present
+
+- name: create 'cinder'@'localhost' under mariadb database
+  mysql_user: name=cinder host=localhost priv=cinder.*:ALL password={{ CINDER_DBPASS }} state=present
+
+- name: create 'cinder'@'%' under mariadb database
+  mysql_user: name=cinder host=% priv=cinder.*:ALL password={{ CINDER_DBPASS }} state=present

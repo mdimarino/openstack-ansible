@@ -1,0 +1,10 @@
+---
+
+- name: create database manila under mariadb
+  mysql_db: name=manila state=present
+
+- name: create 'manila'@'localhost' under mariadb database
+  mysql_user: name=manila host=localhost priv=manila.*:ALL password={{ MANILA_DBPASS }} state=present
+
+- name: create 'manila'@'%' under mariadb database
+  mysql_user: name=manila host=% priv=manila.*:ALL password={{ MANILA_DBPASS }} state=present
