@@ -190,7 +190,7 @@ enable_vxlan = True
 
 # Local IP address of the VXLAN endpoints. (IP address value)
 #local_ip = <None>
-local_ip = {{ ansible_eth0.ipv4.address }}
+local_ip = {{ ansible_eth0["ipv4"]["address"] }}
 
 # Extension to use alongside ml2 plugin's l2population mechanism driver. It
 # enables the plugin to populate VXLAN forwarding table. (boolean value)

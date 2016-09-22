@@ -94,7 +94,7 @@ rootwrap_config = /etc/manila/rootwrap.conf
 
 auth_strategy = keystone
 
-my_ip = {{ ansible_eth0.ipv4.address }}
+my_ip = {{ ansible_eth0["ipv4"]["address"] }}
 
 [cors]
 

@@ -11,7 +11,7 @@ lock_path = /var/lock/cinder
 volumes_dir = /var/lib/cinder/volumes
 rpc_backend = rabbit
 auth_strategy = keystone
-my_ip = {{ ansible_eth0.ipv4.address }}
+my_ip = {{ ansible_eth0["ipv4"]["address"] }}
 enabled_backends = lvm
 glance_api_servers = http://controller:9292
 
