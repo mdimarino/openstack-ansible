@@ -1,8 +1,8 @@
 ---
 # tasks file for controller
 
-- name: disable keystone service from starting automatically after package installation
-  copy: src=keystone.override dest=/etc/init/keystone.override owner=root group=root mode=0644
+# - name: disable keystone service from starting automatically after package installation
+  # copy: src=keystone.override dest=/etc/init/keystone.override owner=root group=root mode=0644
 
 - name: install packages
   apt: name={{ item }} state=present
@@ -10,19 +10,17 @@
     - mariadb-server
     - python-pymysql
     - python-mysqldb
-    - mongodb-server
-    - mongodb-clients
-    - python-pymongo
+    # - mongodb-server
+    # - mongodb-clients
+    # - python-pymongo
     - rabbitmq-server
     - memcached
     - python-memcache
-    - apache2
-    - libapache2-mod-wsgi
     - keystone
     - glance
     - nova-api
-    - nova-conductor
     - nova-consoleauth
+    - nova-conductor
     - nova-novncproxy
     - nova-scheduler
     - neutron-server
@@ -34,15 +32,15 @@
     - openstack-dashboard
     - cinder-api
     - cinder-scheduler
-    - manila-api
-    - manila-scheduler
-    - python-manilaclient
+    # - manila-api
+    # - manila-scheduler
+    # - python-manilaclient
 
 - include: chrony_basic_conf.yml
 
 - include: mariadb_basic_conf.yml
 
-- include: mongodb_basic_conf.yml
+# - include: mongodb_basic_conf.yml
 
 - include: rabbitmq_keystone_conf.yml
 
@@ -50,20 +48,9 @@
 
 - include: mariadb_keystone_conf.yml
 
-- include: apache2_keystone_conf.yml
-
 - include: keystone_conf.yml
 
 - include: keystone_elements.yml
-
-- name: create /etc/keystone/keystone-paste.ini file to disable the temporary authentication token mechanism
-  copy: src=keystone-paste.ini dest=/etc/keystone/keystone-paste.ini owner=root group=root mode=0644
-
-- name: create ~openstack/admin-openrc file
-  template: src=admin-openrc.j2 dest=~openstack/admin-openrc owner=openstack group=openstack mode=0644
-
-- name: create ~openstack/demo-openrc file
-  template: src=demo-openrc.j2 dest=~openstack/demo-openrc owner=openstack group=openstack mode=0644
 
 - include: mariadb_glance_conf.yml
 
@@ -83,6 +70,6 @@
 
 - include: cinder_conf.yml
 
-- include: mariadb_manila_conf.yml
+# - include: mariadb_manila_conf.yml
 
-- include: manila_conf.yml
+# - include: manila_conf.yml

@@ -1,5 +1,6 @@
 [mysqld]
-bind-address = {{ ansible_eth0["ipv4"]["address"] }}
+bind-address = {{ ansible_enp0s3["ipv4"]["address"] }}
+
 default-storage-engine = innodb
 innodb_file_per_table
 max_connections = 4096

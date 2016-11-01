@@ -6,10 +6,11 @@
 
 # If set to true, the logging level will be set to DEBUG instead of the default
 # INFO level. (boolean value)
+# Note: This option can be changed without restarting.
 #debug = false
 
-# If set to false, the logging level will be set to WARNING instead of the
-# default INFO level. (boolean value)
+# DEPRECATED: If set to false, the logging level will be set to WARNING instead
+# of the default INFO level. (boolean value)
 # This option is deprecated for removal.
 # Its value may be silently ignored in the future.
 #verbose = true
@@ -20,6 +21,7 @@
 # configuration files are used then all logging configuration is set in the
 # configuration file and other logging configuration options are ignored (for
 # example, logging_context_format_string). (string value)
+# Note: This option can be changed without restarting.
 # Deprecated group/name - [DEFAULT]/log_config
 #log_config_append = <None>
 
@@ -115,21 +117,18 @@ tenant_network_types = vxlan
 
 # An ordered list of networking mechanism driver entrypoints to be loaded from
 # the neutron.ml2.mechanism_drivers namespace. (list value)
-#mechanism_drivers =
 mechanism_drivers = linuxbridge,l2population
 
 # An ordered list of extension driver entrypoints to be loaded from the
 # neutron.ml2.extension_drivers namespace. For example: extension_drivers =
 # port_security,qos (list value)
-#extension_drivers =
 extension_drivers = port_security
 
 # Maximum size of an IP packet (MTU) that can traverse the underlying physical
 # network infrastructure without fragmentation when using an overlay/tunnel
-# protocol. Either set this to the same value as the global_physnet_mtu value
-# or use it to explicitly specify a physical network MTU value that differs
-# from the default global_physnet_mtu value. (integer value)
-#path_mtu = 1500
+# protocol. This option allows specifying a physical network MTU value that
+# differs from the default global_physnet_mtu value. (integer value)
+#path_mtu = 0
 
 # A list of mappings of physical networks to MTU values. The format of the
 # mapping is <physnet>:<mtu val>. This mapping allows specifying a physical
@@ -145,6 +144,10 @@ extension_drivers = port_security
 # option. (string value)
 #external_network_type = <None>
 
+# IP version of all overlay (tunnel) network endpoints. Use a value of 4 for
+# IPv4 or 6 for IPv6. (integer value)
+#overlay_ip_version = 4
+
 
 [ml2_type_flat]
 
@@ -156,7 +159,7 @@ extension_drivers = port_security
 # default '*' to allow flat networks with arbitrary physical_network names. Use
 # an empty list to disable flat networks. (list value)
 #flat_networks = *
-flat_networks = provider
+flat_networks = {{ PROVIDER_NAME }}
 
 
 [ml2_type_geneve]
@@ -174,7 +177,7 @@ flat_networks = provider
 # + IP + UDP + GENEVE header sizes. The default size for this field is 50,
 # which is the size of the Geneve header without any additional option headers.
 # (integer value)
-#max_header_size = 50
+#max_header_size = 30
 
 
 [ml2_type_gre]
@@ -209,7 +212,6 @@ flat_networks = provider
 
 # Comma-separated list of <vni_min>:<vni_max> tuples enumerating ranges of
 # VXLAN VNI IDs that are available for tenant network allocation (list value)
-#vni_ranges =
 vni_ranges = 1:1000
 
 # Multicast group for VXLAN. When configured, will enable sending all broadcast
@@ -234,5 +236,4 @@ vni_ranges = 1:1000
 
 # Use ipset to speed-up the iptables based security groups. Enabling ipset
 # support requires that ipset is installed on L2 agent node. (boolean value)
-#enable_ipset = true
 enable_ipset = True

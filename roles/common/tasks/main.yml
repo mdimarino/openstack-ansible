@@ -4,8 +4,8 @@
 - name: use apt-cacher for fast package updates
   copy: src=01proxy dest=/etc/apt/apt.conf.d/01proxy owner=root group=root mode=0644
 
-- name: add apt repository for openstack mitaka
-  command: add-apt-repository cloud-archive:mitaka
+- name: add apt repository for openstack newton
+  command: add-apt-repository cloud-archive:newton
 
 - name: update apt cache
   apt: update_cache=yes
@@ -25,7 +25,7 @@
 - name: change .bashrc file for user root
   copy: src=.bashrc.root dest=/root/.bashrc owner=root group=root mode=0644
 
-- name: change .bashrc file for user vagrant
+- name: change .bashrc file for user openstack
   copy: src=.bashrc.openstack dest=/home/openstack/.bashrc owner=openstack group=openstack mode=0644
 
 - name: change /etc/hosts file

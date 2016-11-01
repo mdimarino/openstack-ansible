@@ -6,31 +6,32 @@
     - controller
     - compute1
     - block1
+    # - object1
+    # - object2
   become: true
-
   roles:
-  - common
+    - common
 
 - name: apply configuration to controller node
-  hosts: controller
+  hosts:
+    - controller
   become: true
-
   roles:
-  - controller
+    - controller
 
 - name: apply configuration to compute nodes
-  hosts: compute
+  hosts:
+    - compute
   become: true
-
   roles:
-  - compute
+    - compute
 
 - name: apply configuration to block nodes
-  hosts: block1
-  become: true
-
-  roles:
-  - block
+ hosts:
+   - block1
+ become: true
+ roles:
+   - block
 
 #- name: apply configuration to object nodes
 #  hosts: object
