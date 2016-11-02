@@ -23,10 +23,10 @@
   alternatives: name=editor path=/usr/bin/vim.basic
 
 - name: change .bashrc file for user root
-  copy: src=.bashrc.root dest=/root/.bashrc owner=root group=root mode=0644
+  copy: src=.bashrc.root dest=/root/.bashrc owner=root group=root mode=0644 backup=yes
 
 - name: change .bashrc file for user openstack
-  copy: src=.bashrc.openstack dest=/home/openstack/.bashrc owner=openstack group=openstack mode=0644
+  copy: src=.bashrc.openstack dest=/home/openstack/.bashrc owner=openstack group=openstack mode=0644 backup=yes
 
 - name: change /etc/hosts file
-  copy: src=hosts dest=/etc/hosts owner=root group=root mode=0644
+  copy: src=hosts dest=/etc/hosts owner=root group=root mode=0644 backup=yes

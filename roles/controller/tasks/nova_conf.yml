@@ -22,7 +22,7 @@
     OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
 
 - name: create /etc/nova/nova.conf file
-  template: src=nova.conf.j2 dest=/etc/nova/nova.conf owner=nova group=nova mode=0640
+  template: src=nova.conf.j2 dest=/etc/nova/nova.conf owner=nova group=nova mode=0640 backup=yes
 
 - name: populate compute databases
   command: su -s /bin/sh -c "nova-manage api_db sync" nova

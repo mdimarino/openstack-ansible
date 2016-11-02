@@ -1,7 +1,7 @@
 ---
 
 - name: create /etc/cinder/cinder.conf file
-  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644
+  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644 backup=yes
 
 - name: restart tgt
   service: name=tgt state=restarted

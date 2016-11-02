@@ -34,3 +34,8 @@ openstack security group list
 openstack server create --flavor m1.nano --image cirros --nic net-id=055715a8-0cfc-46ae-948f-b6aa44524b48 --security-group default --key-name mykey selfservice-instance
 openstack server list
 openstack console url show selfservice-instance
+. ./demo-openrc
+openstack volume create --size 1 volume1
+openstack volume list
+openstack server add volume selfservice-instance volume1
+openstack volume list

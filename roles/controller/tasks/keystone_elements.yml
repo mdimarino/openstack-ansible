@@ -20,7 +20,7 @@
     OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
 
 - name: create /etc/keystone/keystone-paste.ini file to disable the temporary authentication token mechanism
-  copy: src=keystone-paste.ini dest=/etc/keystone/keystone-paste.ini owner=root group=root mode=0644
+  copy: src=keystone-paste.ini dest=/etc/keystone/keystone-paste.ini owner=root group=root mode=0644 backup=yes
 
 - name: verify operation requesting an authentication token as user admin
   command: openstack --os-auth-url http://controller:35357/v3 --os-project-domain-name default --os-user-domain-name default --os-project-name admin --os-username admin token issue
@@ -49,7 +49,7 @@
     OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
 
 - name: create ~openstack/admin-openrc file
-  template: src=admin-openrc.j2 dest=~openstack/admin-openrc owner=openstack group=openstack mode=0644
+  template: src=admin-openrc.j2 dest=~openstack/admin-openrc owner=openstack group=openstack mode=0644 backup=yes
 
 - name: create ~openstack/demo-openrc file
-  template: src=demo-openrc.j2 dest=~openstack/demo-openrc owner=openstack group=openstack mode=0644
+  template: src=demo-openrc.j2 dest=~openstack/demo-openrc owner=openstack group=openstack mode=0644 backup=yes

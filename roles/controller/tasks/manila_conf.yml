@@ -141,7 +141,7 @@
     OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
 
 - name: create /etc/manila/manila.conf file
-  template: src=manila.conf.j2 dest=/etc/manila/manila.conf owner=manila group=manila mode=0644
+  template: src=manila.conf.j2 dest=/etc/manila/manila.conf owner=manila group=manila mode=0644 backup=yes
 
 - name: populate share file system database
   command: su -s /bin/sh -c "manila-manage db sync" manila

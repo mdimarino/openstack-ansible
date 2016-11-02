@@ -22,10 +22,10 @@
     OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
 
 - name: create /etc/glance/glance-api.conf file
-  template: src=glance-api.conf.j2 dest=/etc/glance/glance-api.conf owner=glance group=glance mode=0644
+  template: src=glance-api.conf.j2 dest=/etc/glance/glance-api.conf owner=glance group=glance mode=0644 backup=yes
 
 - name: create /etc/glance/glance-registry.conf file
-  template: src=glance-registry.conf.j2 dest=/etc/glance/glance-registry.conf owner=glance group=glance mode=0644
+  template: src=glance-registry.conf.j2 dest=/etc/glance/glance-registry.conf owner=glance group=glance mode=0644 backup=yes
 
 - name: populate image service database
   command: su -s /bin/sh -c "glance-manage db_sync" glance

@@ -25,17 +25,17 @@
     OS_IDENTITY_API_VERSION: "{{ OS_IDENTITY_API_VERSION }}"
     OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
 
-# - name: create /etc/cinder/cinder.conf file
-  # template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644
+- name: create /etc/cinder/cinder.conf file
+  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644
 
-# - name: populate block storage database
-  # command: su -s /bin/sh -c "cinder-manage db sync" cinder
+- name: populate block storage database
+  command: su -s /bin/sh -c "cinder-manage db sync" cinder
 
-# - name: restart nova-api
-  # service: name=nova-api state=restarted
+- name: restart nova-api
+  service: name=nova-api state=restarted
 
-# - name: restart cinder-scheduler
-  # service: name=cinder-scheduler state=restarted
+- name: restart cinder-scheduler
+  service: name=cinder-scheduler state=restarted
 
-# - name: restart cinder-api
-  # service: name=cinder-api state=restarted
+- name: restart cinder-api
+  service: name=cinder-api state=restarted
