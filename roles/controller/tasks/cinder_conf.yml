@@ -26,7 +26,7 @@
     OS_IMAGE_API_VERSION: "{{ OS_IMAGE_API_VERSION }}"
 
 - name: create /etc/cinder/cinder.conf file
-  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644
+  template: src=cinder.conf.j2 dest=/etc/cinder/cinder.conf owner=cinder group=cinder mode=0644 backup=yes
 
 - name: populate block storage database
   command: su -s /bin/sh -c "cinder-manage db sync" cinder

@@ -2,7 +2,7 @@
 # tasks file for common
 
 - name: use apt-cacher for fast package updates
-  copy: src=01proxy dest=/etc/apt/apt.conf.d/01proxy owner=root group=root mode=0644
+  copy: src=01proxy dest=/etc/apt/apt.conf.d/01proxy owner=root group=root mode=0644 backup=yes
 
 - name: add apt repository for openstack newton
   command: add-apt-repository cloud-archive:newton
