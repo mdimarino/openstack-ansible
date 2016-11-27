@@ -1,18 +1,12 @@
 ---
 # tasks file for controller
 
-# - name: disable keystone service from starting automatically after package installation
-  # copy: src=keystone.override dest=/etc/init/keystone.override owner=root group=root mode=0644
-
 - name: install packages
   apt: name={{ item }} state=present
   with_items:
     - mariadb-server
     - python-pymysql
     - python-mysqldb
-    # - mongodb-server
-    # - mongodb-clients
-    # - python-pymongo
     - rabbitmq-server
     - memcached
     - python-memcache
@@ -39,8 +33,6 @@
 - include: chrony_basic_conf.yml
 
 - include: mariadb_basic_conf.yml
-
-# - include: mongodb_basic_conf.yml
 
 - include: rabbitmq_keystone_conf.yml
 
