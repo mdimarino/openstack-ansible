@@ -6,7 +6,7 @@ openstack image create "cirros" --file cirros-0.3.4-x86_64-disk.img --disk-forma
 openstack image list
 . ./admin-openrc
 neutron net-create --shared --provider:physical_network provider --provider:network_type flat provider
-neutron subnet-create --name provider --allocation-pool start=192.168.56.101,end=192.168.56.250 --dns-nameserver 8.8.4.4 --gateway 192.168.0.254 provider 192.168.56.0/24
+neutron subnet-create --name provider --allocation-pool start=192.168.56.101,end=192.168.56.250 --dns-nameserver 8.8.4.4 --gateway 192.168.56.254 provider 192.168.56.0/24
 . ./demo-openrc
 neutron net-create selfservice
 neutron subnet-create --name selfservice --dns-nameserver 8.8.4.4 --gateway 172.16.1.1 selfservice 172.16.1.0/24
@@ -31,9 +31,12 @@ openstack flavor list
 openstack image list
 openstack network list
 openstack security group list
-openstack server create --flavor m1.nano --image cirros --nic net-id=055715a8-0cfc-46ae-948f-b6aa44524b48 --security-group default --key-name mykey selfservice-instance
+openstack server create --flavor m1.nano --image cirros --nic net-id={{ SELFSERVICE_NET_ID }} --security-group default --key-name mykey selfservice-instance
 openstack server list
 openstack console url show selfservice-instance
+openstack floating ip create provider
+openstack server add floating ip selfservice-instance {{ floating_ip_address }}
+openstack server list
 . ./demo-openrc
 openstack volume create --size 1 volume1
 openstack volume list
