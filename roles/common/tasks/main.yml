@@ -10,8 +10,11 @@
 - name: update apt cache
   apt: update_cache=yes
 
-- name: upgrade packages
+- name: upgrade all system packages
   apt: upgrade=dist
+  notify:
+    - restart machine
+    - waiting for server to come back
 
 - name: install packages
   apt: name={{ item }} state=present autoremove=yes

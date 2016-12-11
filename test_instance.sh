@@ -21,7 +21,9 @@ ip netns
 neutron router-port-list router
 openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
 . ./demo-openrc
+
 ssh-keygen -q -N ""
+
 openstack keypair create --public-key ~/.ssh/id_rsa.pub mykey
 openstack keypair list
 openstack security group rule create --proto icmp default
@@ -31,11 +33,15 @@ openstack flavor list
 openstack image list
 openstack network list
 openstack security group list
+
 openstack server create --flavor m1.nano --image cirros --nic net-id={{ SELFSERVICE_NET_ID }} --security-group default --key-name mykey selfservice-instance
+
 openstack server list
 openstack console url show selfservice-instance
 openstack floating ip create provider
+
 openstack server add floating ip selfservice-instance {{ floating_ip_address }}
+
 openstack server list
 . ./demo-openrc
 openstack volume create --size 1 volume1
